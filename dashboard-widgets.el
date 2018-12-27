@@ -148,17 +148,17 @@ If MESSAGEBUF is not nil then MSG is also written in message buffer."
   (insert
    (with-temp-buffer
      (insert-file-contents file)
-     (let ((banner-width 0))
-       (while (not (eobp))
-         (let ((line-length (- (line-end-position) (line-beginning-position))))
-           (if (< banner-width line-length)
-               (setq banner-width line-length)))
-         (forward-line 1))
-       (goto-char 0)
-       (let ((margin (max 0 (floor (/ (- dashboard-banner-length banner-width) 2)))))
-         (while (not (eobp))
-	   (insert (make-string margin ?\ ))
-           (forward-line 1))))
+     ;; (let ((banner-width 0))
+     ;;   (while (not (eobp))
+     ;;     (let ((line-length (- (line-end-position) (line-beginning-position))))
+     ;;       (if (< banner-width line-length)
+     ;;           (setq banner-width line-length)))
+     ;;     (forward-line 1))
+     ;;   (goto-char 0)
+     ;;   (let ((margin (max 0 (floor (/ (- dashboard-banner-length banner-width) 2)))))
+     ;;     (while (not (eobp))
+     ;;       (insert (make-string margin ?\ ))
+     ;;      (forward-line 1))))
      (buffer-string))))
 
 (defun dashboard-insert-image-banner (banner)
@@ -211,6 +211,7 @@ If MESSAGEBUF is not nil then MSG is also written in message buffer."
 	     (message (format "could not find banner %s"
 			      dashboard-startup-banner))
 	     (dashboard-get-banner-path 1)))
+          ((file-exists-p dashboard-startup-banner) dashboard-startup-banner)
           (t (dashboard-get-banner-path 1)))))
 
 (defun dashboard-insert-banner ()
